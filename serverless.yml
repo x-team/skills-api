@@ -39,6 +39,14 @@ functions:
           path: skills/{id}
           method: get
           cors: true
+
+  update:
+    handler: skills/update.update
+    events:
+      - http:
+          path: skills/{id}
+          method: put
+          cors: true
   delete:
     handler: skills/delete.delete
     events:
