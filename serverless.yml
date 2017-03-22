@@ -25,6 +25,13 @@ functions:
           path: skills
           method: post
           cors: true
+  list:
+    handler: skills/list.list
+    events:
+      - http:
+          path: skills
+          method: get
+          cors: true
 
 resources:
   Resources:
