@@ -1,0 +1,19 @@
+{
+  "name": "skills-api",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x-team/skills-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/x-team/skills-api/issues"
+  },
+  "homepage": "https://github.com/x-team/skills-api#readme",
+  "dependencies": {
+    "slug": "^0.9.1",
+    "uuid": "^3.0.1"
+  }
+}
