@@ -39,7 +39,13 @@ functions:
           path: skills/{id}
           method: get
           cors: true
-
+  delete:
+    handler: skills/delete.delete
+    events:
+      - http:
+          path: skills/{id}
+          method: delete
+          cors: true
 
 resources:
   Resources:
