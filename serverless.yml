@@ -4,7 +4,8 @@ provider:
   name: aws
   runtime: nodejs4.3
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    SKILLS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    RESOURCES_TABLE: ${self:service}-resources-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -14,7 +15,16 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.SKILLS_TABLE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.RESOURCES_TABLE}"
   region: us-west-2
 
 functions:
@@ -39,7 +49,6 @@ functions:
           path: skills/{id}
           method: get
           cors: true
-
   update:
     handler: skills/update.update
     events:
@@ -53,6 +62,13 @@ functions:
       - http:
           path: skills/{id}
           method: delete
+          cors: true
+  resourceCreate:
+    handler: skills/resources/create.create
+    events:
+      - http:
+          path: skills/{id}/resources
+          method: post
           cors: true
 
 resources:
@@ -72,4 +88,20 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        TableName: ${self:provider.environment.SKILLS_TABLE}
+    ResourcesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.RESOURCES_TABLE}
