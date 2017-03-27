@@ -25,7 +25,7 @@ module.exports.update = (event, context, callback) => {
     },
     ExpressionAttributeValues: {
       ':name': data.name,
-      ':slug': slug(data.name),
+      ':slug': slug(data.name, {lower: true}),
       ':updatedAt': timestamp,
     },
     UpdateExpression: 'SET #skill_name = :name, slug = :slug, updatedAt = :updatedAt',

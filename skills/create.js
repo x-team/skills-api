@@ -20,7 +20,7 @@ module.exports.create = (event, context, callback) => {
     Item: {
       id: uuid.v1(),
       name: data.name,
-      slug: slug(data.name),
+      slug: slug(data.name, {lower: true}),
       createdAt: timestamp,
       updatedAt: timestamp,
     },

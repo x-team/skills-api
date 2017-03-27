@@ -70,6 +70,13 @@ functions:
           path: skills/{id}/resources
           method: post
           cors: true
+  resourceDelete:
+    handler: skills/resources/delete.delete
+    events:
+      - http:
+          path: skills/{id}/resources/{resourceId}
+          method: delete
+          cors: true
 
 resources:
   Resources:
