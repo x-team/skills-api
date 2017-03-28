@@ -6,6 +6,7 @@ provider:
   environment:
     SKILLS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     RESOURCES_TABLE: ${self:service}-resources-${opt:stage, self:provider.stage}
+    VOTES_TABLE: ${self:service}-votes-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -25,6 +26,15 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.RESOURCES_TABLE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.VOTES_TABLE}"
   region: us-west-2
 
 functions:
@@ -84,6 +94,13 @@ functions:
           path: skills/{id}/resources/{resourceId}
           method: delete
           cors: true
+  voteCreate:
+    handler: skills/resources/votes/create.create
+    events:
+      - http:
+          path: skills/{id}/resources/{resourceId}/votes
+          method: post
+          cors: true
 
 resources:
   Resources:
@@ -125,3 +142,25 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.RESOURCES_TABLE}
+    VotesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: resourceId
+            AttributeType: S
+          -
+            AttributeName: authorId
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: resourceId
+            KeyType: HASH
+          -
+            AttributeName: authorId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.VOTES_TABLE}
