@@ -70,6 +70,13 @@ functions:
           path: skills/{id}/resources
           method: post
           cors: true
+  resourcesGet:
+    handler: skills/resources/get.get
+    events:
+      - http:
+          path: skills/{id}/resources
+          method: get
+          cors: true
   resourceDelete:
     handler: skills/resources/delete.delete
     events:
@@ -102,12 +109,18 @@ resources:
       Properties:
         AttributeDefinitions:
           -
+            AttributeName: skillId
+            AttributeType: S
+          -
             AttributeName: id
             AttributeType: S
         KeySchema:
           -
-            AttributeName: id
+            AttributeName: skillId
             KeyType: HASH
+          -
+            AttributeName: id
+            KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

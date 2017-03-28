@@ -4,26 +4,27 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.delete = (event, context, callback) => {
+module.exports.get = (event, context, callback) => {
   const params = {
     TableName: process.env.RESOURCES_TABLE,
-    Key: {
-      skillId: event.pathParameters.id,
-      id: event.pathParameters.resourceId,
+    KeyConditionExpression: 'skillId = :skillId',
+    ExpressionAttributeValues: {
+      ':skillId': event.pathParameters.id,
     },
   };
 
-  dynamoDb.delete(params, (error) => {
+  dynamoDb.query(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t remove the resource item.'));
+      callback(new Error('Couldn\'t fetch the resource items.'));
       return;
     }
 
     const response = {
       statusCode: 200,
-      body: JSON.stringify({}),
+      body: JSON.stringify(result.Items),
     };
+
     callback(null, response);
   });
 };
