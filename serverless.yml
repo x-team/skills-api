@@ -101,6 +101,13 @@ functions:
           path: skills/{id}/resources/{resourceId}/votes
           method: post
           cors: true
+  votesGet:
+    handler: skills/resources/votes/get.get
+    events:
+      - http:
+          path: skills/{id}/resources/{resourceId}/votes
+          method: get
+          cors: true
 
 resources:
   Resources:
