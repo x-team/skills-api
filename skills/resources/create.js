@@ -45,7 +45,7 @@ module.exports.create = (event, context, callback) => {
         "Access-Control-Allow-Origin" : "*",
         "Access-Control-Allow-Credentials" : true
       },
-      body: JSON.stringify(result.Item),
+      body: JSON.stringify(params.Item),
     };
 
     callback(null, response);
