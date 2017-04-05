@@ -39,70 +39,70 @@ provider:
 
 functions:
   create:
-    handler: skills/create.create
+    handler: skills/skillCreate.create
     events:
       - http:
           path: skills
           method: post
           cors: true
   list:
-    handler: skills/list.list
+    handler: skills/skillList.list
     events:
       - http:
           path: skills
           method: get
           cors: true
   get:
-    handler: skills/get.get
+    handler: skills/skillGet.get
     events:
       - http:
           path: skills/{id}
           method: get
           cors: true
   update:
-    handler: skills/update.update
+    handler: skills/skillUpdate.update
     events:
       - http:
           path: skills/{id}
           method: put
           cors: true
   delete:
-    handler: skills/delete.delete
+    handler: skills/skillDelete.delete
     events:
       - http:
           path: skills/{id}
           method: delete
           cors: true
   resourceCreate:
-    handler: skills/resources/create.create
+    handler: skills/resourceCreate.create
     events:
       - http:
           path: skills/{id}/resources
           method: post
           cors: true
-  resourcesGet:
-    handler: skills/resources/get.get
+  resourceList:
+    handler: skills/resourceList.list
     events:
       - http:
           path: skills/{id}/resources
           method: get
           cors: true
   resourceDelete:
-    handler: skills/resources/delete.delete
+    handler: skills/resourceDelete.delete
     events:
       - http:
           path: skills/{id}/resources/{resourceId}
           method: delete
           cors: true
   voteCreate:
-    handler: skills/resources/votes/create.create
+    handler: skills/voteCreate.create
     events:
       - http:
           path: skills/{id}/resources/{resourceId}/votes
           method: post
           cors: true
-  votesGet:
-    handler: skills/resources/votes/get.get
+  voteList:
+    handler: skills/voteList.list
     events:
       - http:
           path: skills/{id}/resources/{resourceId}/votes

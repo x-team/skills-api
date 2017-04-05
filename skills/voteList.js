@@ -4,12 +4,12 @@ const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-depe
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.get = (event, context, callback) => {
+module.exports.list = (event, context, callback) => {
   const params = {
-    TableName: process.env.RESOURCES_TABLE,
-    KeyConditionExpression: 'skillId = :skillId',
+    TableName: process.env.VOTES_TABLE,
+    KeyConditionExpression: 'resourceId = :resourceId',
     ExpressionAttributeValues: {
-      ':skillId': event.pathParameters.id,
+      ':resourceId': event.pathParameters.resourceId,
     },
   };
 
