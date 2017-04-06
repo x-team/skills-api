@@ -81,7 +81,7 @@ functions:
           method: post
           cors: true
   resourcesGet:
-    handler: skills/resources/get.get
+    handler: skills/resources/list.list
     events:
       - http:
           path: skills/{id}/resources
@@ -102,7 +102,7 @@ functions:
           method: post
           cors: true
   votesGet:
-    handler: skills/resources/votes/get.get
+    handler: skills/resources/votes/list.list
     events:
       - http:
           path: skills/{id}/resources/{resourceId}/votes
