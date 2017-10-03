@@ -1,8 +1,16 @@
 service: skills-api
 
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
+custom:
+  serverless-offline:
+    port: 1337
+
 provider:
   name: aws
-  runtime: nodejs4.3
+  runtime: nodejs6.10
   environment:
     SKILLS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     RESOURCES_TABLE: ${self:service}-resources-${opt:stage, self:provider.stage}

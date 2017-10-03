@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/x-team/skills-api.git"
   },
-  "author": "",
+  "author": "Karol Sojko",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/x-team/skills-api/issues"
@@ -15,5 +15,19 @@
   "dependencies": {
     "slug": "^0.9.1",
     "uuid": "^3.0.1"
+  },
+  "scripts": {
+    "offline": "serverless offline",
+    "prepare": "serverless dynamodb install",
+    "local-dynamodb": "serverless dynamodb start --migrate",
+    "offline-watch": "nodemon --exec npm run offline",
+    "dev": "concurrently --names \"API,DYNAMODB\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run offline-watch\" \"npm run local-dynamodb\" --kill-others"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.125.0",
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.12.1",
+    "serverless-dynamodb-local": "^0.2.25",
+    "serverless-offline": "^3.16.0"
   }
 }
